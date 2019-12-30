@@ -29,7 +29,7 @@ import argparse
 import itertools
 import threading
 import collections
-
+import imageio
 
 # Configure all options first so we can later custom-load other libraries (Theano) based on device specified by user.
 parser = argparse.ArgumentParser(description='Generate a new image by applying style onto a content image.',
@@ -567,8 +567,7 @@ class NeuralEnhancer(object):
         if args.rendering_histogram:
             for i in range(3):
                 output[:,:,i] = self.match_histograms(output[:,:,i], original[:,:,i])
-
-        return scipy.misc.toimage(output, cmin=0, cmax=255)
+        return PIL.Image.fromarray(output.astype(np.uint8))
 
 
 if __name__ == "__main__":
